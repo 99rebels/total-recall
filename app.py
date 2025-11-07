@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
@@ -9,6 +9,12 @@ def index():
 @app.route("/notes")
 def notes():
   return render_template ("notes.html")
+
+@app.route("/params")
+def params():
+  greeting = request.args["greeting"]
+  name = request.args["name"]
+  return f"{greeting}, {name}"
 
 @app.route("/notes/<date>")
 def notes_today(date):
