@@ -1,24 +1,46 @@
-from flask import Flask, render_template, request
+
+from dotenv import load_dotenv
+load_dotenv()
+
+import os
+from supabase import create_client
+
+url = os.environ.get("SUPABASE_URL")
+key = os.environ.get("SUPABASE_KEY")
+supabase = create_client(url, key)
+
+from flask import Flask, request, render_template
 
 app = Flask(__name__)
 
-@app.route("/")
+@app.route("/") 
 def index():
-  return render_template ("index.html")
+  entire_table = (
+    supabase.table("first-table")
+    .select("*")
+    .execute()
+)
+  html_build = "<html><body>"
+  html_end_string = "</body></html>"
+  html_build = html_build + "<ul>"
 
-@app.route("/notes")
-def notes():
-  return render_template ("notes.html")
+  for rows in entire_table.data:
+    for data in rows.values():
+      html_build = html_build + "<li>" + str(data) + "</li>"
+  html_build = html_build + "</ul>"
 
-@app.route("/params")
-def params():
-  greeting = request.args["greeting"]
-  name = request.args["name"]
-  return f"{greeting}, {name}"
+  return html_build + html_end_string
 
-@app.route("/notes/<date>")
-def notes_today(date):
-  return "<html><body><h4>You're notes for " + str(date) + " are available </h4></body></html>"
+@app.route("/form_input")
+def form_input():
+  return render_template("form_input.html")
+
+@app.route("/form_output", methods =["Get"])
+def form_output():
+  username = request.args.get("username")
+  password = request.args.get("password")
+  return str(username) + " " + str(password)
+
 
 if __name__ == "__main__":
   app.run(debug = True)
