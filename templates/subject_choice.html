@@ -8,9 +8,11 @@
 </head>
 
 <body>
-  <form action = "/form_output">
-    <select name = "dropdown">
-      <option>test 1</option> <option>test 2</option> <option>test 3</option>
+  <form action = "/subject_output">
+    <select name = "subject">
+      {%for subject in subject_collection%}
+        <option>{{subject}}</option>
+      {%endfor%}
     </select>
     <input type="submit" name = "submit" placeholder="submit">
   </form>

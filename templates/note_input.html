@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes</title>
+</head>
+<body>
+    <form action =/notes>
+        <select name="topic">
+            {% for topics in topic_collection %}
+                <option>{{topics}}</option>
+            {%endfor%}
+        </select>
+        <input type="hidden" name="subject" value="{{subject}}">
+        <input type="text" name="notes" placeholder="Add your notes...">
+        <input type="text" name="questions" placeholder="Add your questions...">
+        <input type="submit" name="submit">
+    </form>
+    </form>
+</body>
+</html>

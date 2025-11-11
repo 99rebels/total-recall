@@ -74,3 +74,15 @@
 
  - Something else I need to consider is how I'm returning my HTML pages. I thought I was going to do it through building the page up with loops etc but the more I do it the more clunky and hard to follow it's becoming. My other option in jinga templates but I'm worried that's another can of worms. I'll research that option when I'm building up the entire page but for now I'll just continue building it up in python.
  
+
+
+### 11/11 ###
+ #### 15:15 ####
+
+  - I have come to the conluction that jinga templating is the way to go. It isn't actually as complicated as I though and trying to build the html pages up through Python is already complicated with a simple form page.
+  - Hopefully I can get everything sorted with the new html files and teplating today - glad I caught this early as this would have been awful to try and change later on with more complex pages.
+
+#### 16:12 ####
+
+ - Ok, that was much easier to chnage to jinja than I thought - good sign. 
+ - next order of business is adding the notes and questions to the database

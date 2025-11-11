@@ -15,7 +15,7 @@ app = Flask(__name__)
 
 @app.route("/") 
 def index():
-  return""
+  return render_template("index.html")
 
 @app.route("/subject_input")
 def form_input():
@@ -26,9 +26,6 @@ def form_input():
     .execute()
   )
 
-  html_build = "<html><body><form action = \"/subject_output\" name=\"subject\"><select name=\"subject\">"
-  submit = "<input type=\"submit\" id=\"submit\">"
-  html_end = "</form></body></html>"
   subject_collection = []
 
   for subject in subject_options.data:
@@ -38,11 +35,7 @@ def form_input():
       else:
         subject_collection.append(subject)
 
-  for subject in subject_collection:
-    html_build = html_build + "<option>" + str(subject) + "</option>"
-  html_build = html_build + "</select>"
-
-  return html_build+submit+html_end
+  return render_template("subject_choice.html", subject_collection = subject_collection)
 
 
 
@@ -56,23 +49,26 @@ def subject_output():
     .eq("subject", str(subject))
     .execute()
   )
-  
-  html="<html><body><form action = \"/notes\"><select>"
+  topic_collection = []
   for topics in topics.data:
     for topic in topics.values():
-      html += "<option>" + topic + "</option>"
-  html+="</select><input type = \"text\" name =\"notes\" placeholder = \"notes\"><input type = \"text\" name =\"questions\" placeholder = \"questions\"> <input type = \"submit\"></form></body></html>"
-  return html
+      topic_collection.append(topic)
+  return render_template("note_input.html", topic_collection = topic_collection, subject = subject, topic=topic)
 
 
-@app.route("/notes")
+@app.route("/notes", methods=["GET"])
 def notes():
+  subject = request.args.get("subject")
   notes = request.args.get("notes")
   questions = request.args.get("questions")
+  topic = request.args.get("topic")
 
-  html = "<html><body><h2> Your notes for today! </h2><h3> Notes: </h3>" + notes + "<h3> Questions: </h3>" + questions + "</body</html>"
-
-  return html
+  (
+    supabase.table("main-table")
+    .insert({"subject":subject, "topic": topic, "subject": subject, "notes": notes, "questions": questions})
+    .execute()
+  )
+  return render_template("todays_notes.html", notes=notes, questions=questions)
 
 
 if __name__ == "__main__":
