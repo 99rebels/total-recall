@@ -15,31 +15,64 @@ app = Flask(__name__)
 
 @app.route("/") 
 def index():
-  entire_table = (
-    supabase.table("first-table")
-    .select("*")
-    .execute()
-)
-  html_build = "<html><body>"
-  html_end_string = "</body></html>"
-  html_build = html_build + "<ul>"
+  return""
 
-  for rows in entire_table.data:
-    for data in rows.values():
-      html_build = html_build + "<li>" + str(data) + "</li>"
-  html_build = html_build + "</ul>"
-
-  return html_build + html_end_string
-
-@app.route("/form_input")
+@app.route("/subject_input")
 def form_input():
-  return render_template("form_input.html")
 
-@app.route("/form_output", methods =["Get"])
-def form_output():
-  username = request.args.get("username")
-  password = request.args.get("password")
-  return str(username) + " " + str(password)
+  subject_options = (
+    supabase.table("main-table")
+    .select("subject")
+    .execute()
+  )
+
+  html_build = "<html><body><form action = \"/subject_output\" name=\"subject\"><select name=\"subject\">"
+  submit = "<input type=\"submit\" id=\"submit\">"
+  html_end = "</form></body></html>"
+  subject_collection = []
+
+  for subject in subject_options.data:
+    for subject in subject.values():
+      if subject in subject_collection:
+        continue
+      else:
+        subject_collection.append(subject)
+
+  for subject in subject_collection:
+    html_build = html_build + "<option>" + str(subject) + "</option>"
+  html_build = html_build + "</select>"
+
+  return html_build+submit+html_end
+
+
+
+
+@app.route("/subject_output", methods =["GET"])
+def subject_output():
+  subject = request.args.get("subject")
+  topics = (
+    supabase.table("main-table")
+    .select("topic")
+    .eq("subject", str(subject))
+    .execute()
+  )
+  
+  html="<html><body><form action = \"/notes\"><select>"
+  for topics in topics.data:
+    for topic in topics.values():
+      html += "<option>" + topic + "</option>"
+  html+="</select><input type = \"text\" name =\"notes\" placeholder = \"notes\"><input type = \"text\" name =\"questions\" placeholder = \"questions\"> <input type = \"submit\"></form></body></html>"
+  return html
+
+
+@app.route("/notes")
+def notes():
+  notes = request.args.get("notes")
+  questions = request.args.get("questions")
+
+  html = "<html><body><h2> Your notes for today! </h2><h3> Notes: </h3>" + notes + "<h3> Questions: </h3>" + questions + "</body</html>"
+
+  return html
 
 
 if __name__ == "__main__":

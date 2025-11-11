@@ -52,4 +52,25 @@
  - need to change how the "topic" field works. It needs to be a dropdown instead of a text field for organisational purposes and building out how the topics will work in the future. The topic dropdown will be populated by the subject the user has decided on. For now I will have to manually create/add the topics for each subject as I go, in future I could make some kind of topic config but under the time constraints this will have to do.
 
 #### 17:30 ####
- - Spent some time working with and displaying the outputs of forms with flask routes etc. I can work it out fine in my head for the simple forms but trying to work out how I would do it in my case is more difficult. the form is going to be replaced with one with the subject argument when a dropdown is selected that will then populate the topic dropdown. Good practice though - nice to actually start building out total recall.
+ - Spent some time working with and displaying the outputs of forms with flask routes etc. I can work it out fine in my head for the simple forms but trying to work out how I would do it in my case is more difficult. the form is going to be replaced with one with the subject argument when a dropdown is selected that will then populate the topic dropdown. Good practice though - nice to actually start building out *Total Recall*.
+
+ ### 10/11 ###
+
+ #### 13:40 ####
+  - Ok, I've run into a problem. I want to dynamically reload the form when a subject is selectd from a dropdown menue. This would be to then make a call to the database with the subject selected and recieve the realevnt topics from that subject. I thought this might be possible to do with the ***action*** attribute on the ***select*** tag but this wont work (will only perform "action" when form is submitted).
+
+ - From what I've seen, theres a couple of methods around this. The first is by using JS. I have no expereince with JS but the fix seems relatively simple, just code listening to whether or not the subject dropdown has been selected and sending the realavent data over to reload the form. I'm sure I could get this to work but I'm afraid of adding extra complexities such as introducing a new language I know nothing about.
+
+ - The other way I could think to make this work is by having 2 seperate forms. Where the User would input their subject (pressing a submit button) and then the other form would appear with the correctly populated topic dropdown and with space for notes etc. This way is more clunky but removes the requirement for JS which is nice.
+
+  - I'm going to try the second way but if it's too clunky I will rethink the first option.
+
+
+#### 18:30 ####
+
+ - Progress is slow, but progress is progress I guess. I have spent the day building out the form routes that will take place - hopefully I get them finished tonight. If I can thats a huge section of the input form finished. It doesnt look pretty, but it doesnt have to at the moment.
+
+ - Hopefully over the course of the project I stop spending so long on silly mistakes (and learn how to clean up my code a bit, its pretty clunky but thats probably ok). 
+
+ - Something else I need to consider is how I'm returning my HTML pages. I thought I was going to do it through building the page up with loops etc but the more I do it the more clunky and hard to follow it's becoming. My other option in jinga templates but I'm worried that's another can of worms. I'll research that option when I'm building up the entire page but for now I'll just continue building it up in python.
+ 
