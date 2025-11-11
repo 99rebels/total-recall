@@ -84,5 +84,11 @@
 
 #### 16:12 ####
 
- - Ok, that was much easier to chnage to jinja than I thought - good sign. 
+ - Ok, that was much easier to chanage to jinja than I thought - good sign. Code is so much cleaner and easier to read now. 
+
  - next order of business is adding the notes and questions to the database
+
+#### 19:50 ####
+ - Just finishing up/cleaning up my code from today, updating routes, redirecting to a "submitted" page when the form submit button is pressed. Also added a calendar to the form and configured the database to accept the dates. 
+
+ - This is in preperation for the next few days where I'll be working on the functionality to retrieve the relavent notes depending on the date where a function will compare the dates in the database and retrieve depening on the time between them (I dont exactly know how to do this yet, it might be easier then I'm making it out to be).

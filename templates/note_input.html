@@ -6,17 +6,18 @@
     <title>Notes</title>
 </head>
 <body>
-    <form action =/notes>
+    <form action =/notes action = "/submitted_notes">
         <select name="topic">
             {% for topics in topic_collection %}
                 <option>{{topics}}</option>
             {%endfor%}
         </select>
         <input type="hidden" name="subject" value="{{subject}}">
-        <input type="text" name="notes" placeholder="Add your notes...">
-        <input type="text" name="questions" placeholder="Add your questions...">
+        <input type="text" name="notes" placeholder="Add your notes..." required>
+        <input type="text" name="questions" placeholder="Add your questions..." required>
+        <input type="date" name="date" placeholder="date" required>
         <input type="submit" name="submit">
     </form>
     </form>
-</body>
+</body> 
 </html>

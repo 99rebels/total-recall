@@ -1,5 +1,6 @@
 
 from dotenv import load_dotenv
+from datetime import datetime
 load_dotenv()
 
 import os
@@ -9,7 +10,7 @@ url = os.environ.get("SUPABASE_URL")
 key = os.environ.get("SUPABASE_KEY")
 supabase = create_client(url, key)
 
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, url_for, redirect
 
 app = Flask(__name__)
 
@@ -56,20 +57,25 @@ def subject_output():
   return render_template("note_input.html", topic_collection = topic_collection, subject = subject, topic=topic)
 
 
-@app.route("/notes", methods=["GET"])
+
+@app.route("/notes", methods=["GET", "POST"])
 def notes():
   subject = request.args.get("subject")
   notes = request.args.get("notes")
   questions = request.args.get("questions")
   topic = request.args.get("topic")
+  date = request.args.get("date")
 
   (
     supabase.table("main-table")
-    .insert({"subject":subject, "topic": topic, "subject": subject, "notes": notes, "questions": questions})
+    .insert({"created_at":date, "subject":subject, "topic": topic, "subject": subject, "notes": notes, "questions": questions})
     .execute()
   )
-  return render_template("todays_notes.html", notes=notes, questions=questions)
+  return redirect(url_for("submitted_notes"))
 
+@app.route("/submitted_notes")
+def submitted_notes():
+  return render_template("submitted_notes.html")
 
 if __name__ == "__main__":
   app.run(debug = True)
