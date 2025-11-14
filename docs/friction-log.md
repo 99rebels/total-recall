@@ -92,3 +92,25 @@
  - Just finishing up/cleaning up my code from today, updating routes, redirecting to a "submitted" page when the form submit button is pressed. Also added a calendar to the form and configured the database to accept the dates. 
 
  - This is in preperation for the next few days where I'll be working on the functionality to retrieve the relavent notes depending on the date where a function will compare the dates in the database and retrieve depening on the time between them (I dont exactly know how to do this yet, it might be easier then I'm making it out to be).
+
+### 12/10/25 ###
+#### 19:40 ####
+ - After trying to understand the code that I wrote last night, I just realised i really need to comment on my code to actually explain to myself and the TECS mentors looking at it, what is actually going on. So I'll spend some time doing that. First order of business is to work out the functionality for retrival of data form the DB depending on the date.
+
+ - I also need to change the names of html files and functions to be more descriptive because I can barely actually understand where my functions are pointing. 
+
+### 13/11/15 ###
+#### 10:00 ####
+ - Spent last night working on the functionality for the retrieving of data depending on the date. I knew it would be operated under a script, but didnt know how that worked. Turns out scripts run entire py files, not specific functions (not sure why I didnt know that, that makes so much more sense). Therefore I did all the functiontionality inside a function making the code super clunky and error prone.
+
+ - going to spend the next hour rewriting the logic (hopefully in a much better way) in the new file [script.py](/script.py)
+
+#### 16:40 ####
+ - Scratch that, I wrote the function inside a specific [db_client](/utils/db_client.py) file in a **utils** folder so that I can call it with my *script.py* file (which will send an email with the notes to the user) and my *app.py*. In summary, it's set up for an automatic cron call for the daily email, and a user call when a user goes to */todays_notes*.
+
+#### 19:00 ####
+ - Just had a thought while creating the jinja logic on my front end. A user will be adding their notes and questions into one input on the html form. But this just doesn't make sense (especially for the questions). The returning data will then be just one big paragraph of questions which doesnt make sense at all. I need to rethink the input of this to display the notes and questions as something like an unorderd list n the front end.
+
+- The only option I have I think is to have seperate text fields for different questions i.e question 1, question 2 etc so that they're all added to the database seperately. For now I can hard code these inputs but ideally i'd like addition/deletion functionality on the form and for that I'll need to implement JS (could keep making calls to the backed and refresh the page with the extra text field but that feels too clunky). 
+
+- Thats not to mention possible problems with the DB if some notes have 5 questions attatched and others have 8. How will that look on the database and retrieval? would I have to hard code 50 columns of questions and have them as "none" unless filled? There must be a better way then that. Regardless - food for though. The plan now is to go back and hardcode 5 text fields for notes and questions and I can look at the dynamic aspect later on. **Rant is over**

@@ -3,13 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todays Notes</title>
+    <title>Today's Notes</title>
 </head>
 <body>
-    <h2> Your notes for today! </h2>
-    <h3> Notes: </h3>
-    <p>{{notes}}</p>
-    <h3> Questions: </h3>
-    <p>{{questions}}</p>
+    {% if day_prior_data %}
+        <div>
+            <h2>Notes from yesterday</h2>
+        {% for dicts in day_prior_data %}
+            <h3> Subject: {{dicts["subject"]}}</h3>
+            <h3>Topic: {{dicts["topic"]}}</h3>
+            <br>
+            <h3>Notes:</h3>
+            <p>{{dicts["notes"]}}</p>
+            <br>
+            <h3>Questions:</h3>
+            <p>{{dicts["questions"]}}</p>
+            <h3>----------------------------------------------------------------------------------------------------</h3>
+            {%endfor%}
+        </div>
+    {% else %}
+
+    {% endif %}
+    <br>
+        {% if week_prior_data %}
+        <div>
+            <h2>Notes from last week</h2>
+        {% for dicts in week_prior_data %}
+            <h3> Subject: {{dicts["subject"]}}</h3>
+            <h3>Topic: {{dicts["topic"]}}</h3>
+            <br>
+            <h3>Notes:</h3>
+            <p>{{dicts["notes"]}}</p>
+            <br>
+            <h3>Questions:</h3>
+            <p>{{dicts["questions"]}}</p>
+            <h3>----------------------------------------------------------------------------------------------------</h3>
+            {%endfor%}
+        </div>
+    {% else %}
+    
+    {% endif %}
+    <br>
+        {% if month_prior_data %}
+        <div>
+            <h2>Notes from last month</h2>
+        {% for dicts in month_prior_data %}
+            <h3> Subject: {{dicts["subject"]}}</h3>
+            <h3>Topic: {{dicts["topic"]}}</h3>
+            <br>
+            <h3>Notes:</h3>
+            <p>{{dicts["notes"]}}</p>
+            <br>
+            <h3>Questions:</h3>
+            <p>{{dicts["questions"]}}</p>
+            <h3>----------------------------------------------------------------------------------------------------</h3>
+            {%endfor%}
+        </div>
+    {% else %}
+    
+    {% endif %}
+    <br>
+        {% if three_month_prior_data %}
+        <div>
+            <h2>Notes from 3 months ago</h2>
+        {% for dicts in three_month_prior_data %}
+            <h3> Subject: {{dicts["subject"]}}</h3>
+            <h3>Topic: {{dicts["topic"]}}</h3>
+            <br>
+            <h3>Notes:</h3>
+            <p>{{dicts["notes"]}}</p>
+            <br>
+            <h3>Questions:</h3>
+            <p>{{dicts["questions"]}}</p>
+            <h3>----------------------------------------------------------------------------------------------------</h3>
+            {%endfor%}
+        </div>
+    {% else %}
+    
+    {% endif %}
 </body>
 </html>
