@@ -14,4 +14,7 @@
 
 #### My week one progress .md file can be viewed [here](docs/week-one.md) where I provide a summary of my friction log for that week along with images etc ####
 
+
+#### My **week two** progress docs can be viewed [here](docs/week_two.md) where I provide a summary of my friction log for that week ####
+
  

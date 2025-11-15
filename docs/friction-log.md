@@ -114,3 +114,28 @@
 - The only option I have I think is to have seperate text fields for different questions i.e question 1, question 2 etc so that they're all added to the database seperately. For now I can hard code these inputs but ideally i'd like addition/deletion functionality on the form and for that I'll need to implement JS (could keep making calls to the backed and refresh the page with the extra text field but that feels too clunky). 
 
 - Thats not to mention possible problems with the DB if some notes have 5 questions attatched and others have 8. How will that look on the database and retrieval? would I have to hard code 50 columns of questions and have them as "none" unless filled? There must be a better way then that. Regardless - food for though. The plan now is to go back and hardcode 5 text fields for notes and questions and I can look at the dynamic aspect later on. **Rant is over**
+
+
+### 14/11/25 ###
+#### 9:00 ####
+
+ - Ok, need to do a big push today. My aim for the end of the weekend is to have all the basic functionality fully finished so I can start working on some stretch goals and making it look good.
+
+ - might be worth also revising the style of the form as things have now changed with the addition of new questions.
+ - the plan for this is to (for now) hard code a max of 5 questions to be sent and later today/tomorrow i'll implement the JS to do this dynamically. I also need to change my databse table from a flat file DB to a relational one, using foreign/local keys, etc. 
+
+-  My advice from the TECS mentors was to keep everything implementation simple and make sure that I save time at the end for bug fixes, styleing etc, so i'll keep that in mind as I go through. 
+
+- For this morning I think my first plan of action should be adding the five questions and sending them to the same table in the DB. Then I'll change the DB so it has its own questions table with id of "created_at" (the date). 
+
+#### 10:00 ####
+- well that was one frustrating hour. My names and routes were all messed up and I eneded up just completely confusing myself. I took that time to sort them out/renamining them going through the whole flow. Also spent the time commenting on my functions explaing what they do.
+
+
+#### 13:00 ####
+ - This is so frustrating. I'm trying to get my head around relational databases and I'm still trying to get my code to work as it did before. Really slow prgress, but I just have to power through.
+
+### 15/11/25 ###
+ - Ok, I finished the refactoring but I'm not iterating through my questions properly. i think I need to add the new question dictionary into the notes dictionary before sending it over. This means I'm not sending so many objects through to the todays_notes html page.
+
+ - I'll do that tommorrow, for now I need to send in my weekly report to TECS
