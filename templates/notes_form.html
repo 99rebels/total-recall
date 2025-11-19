@@ -6,7 +6,9 @@
     <title>Notes</title>
 </head>
 <body>
-    <form action = "/form_submit">
+    <div>
+        <form action = "/form_submit">
+
         <select name="topic">
             {% for topics in topic_collection %}
                 <option>{{topics}}</option>
@@ -14,12 +16,30 @@
         </select>
         <input type="hidden" name="subject" value="{{subject}}">
         <input type="text" name="notes" placeholder="Add your notes..." required>
-        <input type="text" name="question_1" placeholder="Add question..." required>
-        <input type="text" name="question_2" placeholder="Add question...">
-        <input type="text" name="question_3" placeholder="add question...">
+
+        <div id = "question_field">
+            <input type="text"  name="question" placeholder="Add question 1..." required>
+        </div>
+
         <input type="date" name="date" placeholder="date" required>
         <input type="submit" name="submit">
-    </form>
-    </form>
+        </form>
+        <button onclick = "add_question_field()"> Add question </button>
+    </div>
+
+    <script>
+        let count = 2;
+        function add_question_field() {
+            const container = document.getElementById("question_field");
+
+            const input = document.createElement("input");
+            input.type = "text";
+            input.name = "question";
+            input.placeholder = "add question " + count + "...";
+            count+=1;
+            container.appendChild(input);
+        }
+    </script>
+
 </body> 
 </html>

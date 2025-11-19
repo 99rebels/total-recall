@@ -139,3 +139,34 @@
  - Ok, I finished the refactoring but I'm not iterating through my questions properly. i think I need to add the new question dictionary into the notes dictionary before sending it over. This means I'm not sending so many objects through to the todays_notes html page.
 
  - I'll do that tommorrow, for now I need to send in my weekly report to TECS
+
+
+## End Of Week Two ## 
+
+### 16/11/25 ###
+#### 13:10 ####
+
+ - Ok this is the problem. Due to the separation of the questions from the notes on the databse, theres nothing that ties the questions *to* the notes. This causes all the questions with that date to be shown on the font end, not the questions for the corresponding notes.
+
+ - My way of solving this issue I think it to append the questions dictionary in the notes dictionary and loop through the notes dictionary as usual, but also then loop through the corresponding questions dictionary, now inside the notes dictionary. Not sure how much sense that makes in writing but it makes sense to me so that's all that matters...
+
+### 17/11/25 ###
+#### 16:00 ####
+ - That was way to difficult then it should have been. I ended up breaking everything and not realising what was actually going on. I ended up having way too many variables, lists and for loops. I decided to rewrite the definition on db_client.py to include the get_notes function and get_questions. Now its all one function which I'm not sure is best practice but has dramatically cut down the amount of code I had to deal with. Now the function on app.py and db_client.py. is much cleaner and I only have one type of variable (day_prior_notes, etc) instead of the addition of day_prior_questions which called another function.
+
+ - Regardless, questions from the date are correctly added to the relavent notes dictionary and are correctly being looped through - **Finally**
+
+ - Now, I need to work on script.py that will be run by a daily cron for the email. If I get this done quickly I would love to have a look at a stretch goal of intergrating an LLM for extra question creation - need to keep an eye on timing for this dont want to corner myself time wise. 
+
+
+### 19/11/25 ###
+#### 14:30 ####
+ - I haven't that much time to work on total recall over the last few days but I have gotten some stuff done. First of all I implemented the JavaScript on the front end for dynamic question creation. Admittedly I had pretty much 0 expereince with JS before this so I very quickly got everything I needed on stack overflow with basic learnings on different variables and acsessing a variable with a specific element id etc. 
+
+ - I've also decided not to prioratise the daily email. Instead I want to intergrate AI in total recall (because I've wanted to work with LLM's for ages and I think it would be so cool). 
+
+ - I want a button somewhere in the relavent notes section that when pressed, send the notes and questions to an LLM to then send back more AI created questions. This fits in the "total recall universe" quite well. My hypothisis is that when people write their own questions, they know the exact word or word answer (most likely in the notes also). But when different questions are given or frased differently, it requiers "mastery" of the content in your own words in order to correctly answer the question which helps you learn the content better. In short, this is my excuse to be able to work with LLM's in my code.
+
+ - I have realised that I have been including my .env file in my github pushes (fine for now but could have been really bad if I had my private DB key or AI API key). So I need to sort that out. 
+
+ -  I also bought totalrecall.info in preperating for production on Render. 

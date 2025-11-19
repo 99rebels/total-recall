@@ -20,87 +20,87 @@
             <h3>Questions:</h3>
             <ul>
 
-            {% for question in day_prior_questions%}
-                <li>{{question["question"]}}</li>
+            {% for question in note["question"] %}
+                <li>{{question}}</li>
             {%endfor%}
         
             </ul>
             <h3>----------------------------------------------------------------------------------------------------</h3>
-        {%endfor%}  
         </div>
-    {% else %}
-
+        {%endfor%}  
     {% endif %}
-    <br>
+
     {% if week_prior_notes %}
         <div>
-            <h2>Notes from last week</h2>
-        {% for dicts in week_prior_notes %}
-            <h3> Subject: {{dicts["subject"]}}</h3>
-            <h3>Topic: {{dicts["topic"]}}</h3>
+            <h2>Notes from a week ago</h2>
+        {% for note in week_prior_notes %}
+            <h3> Subject: {{note["subject"]}}</h3>
+            <h3>Topic: {{note["topic"]}}</h3>
             <br>
             <h3>Notes:</h3>
-            <p>{{dicts["notes"]}}</p>
-        {%endfor%}
+            <p>{{note["notes"]}}</p>
             <br>
+        
             <h3>Questions:</h3>
+            <ul>
 
-        {% for dicts in week_prior_questions%}
-            <li>{{dicts["question"]}}</li>
-        {%endfor%}
-
+            {% for question in note["question"] %}
+                <li>{{question}}</li>
+            {%endfor%}
+        
             </ul>
             <h3>----------------------------------------------------------------------------------------------------</h3>
         </div>
-    {% else %}
-    
+        {%endfor%}  
     {% endif %}
-    <br>
+
     {% if month_prior_notes %}
         <div>
-            <h2>Notes from last month</h2>
-        {% for dicts in month_prior_notes %}
-            <h3> Subject: {{dicts["subject"]}}</h3>
-            <h3>Topic: {{dicts["topic"]}}</h3>
+            <h2>Notes from a month ago</h2>
+        {% for note in month_prior_notes %}
+            <h3> Subject: {{note["subject"]}}</h3>
+            <h3>Topic: {{note["topic"]}}</h3>
             <br>
             <h3>Notes:</h3>
-            <p>{{dicts["notes"]}}</p>
+            <p>{{note["notes"]}}</p>
             <br>
-            {%endfor%}
+        
             <h3>Questions:</h3>
-        {% for dicts in month_prior_questions%}
-            <li>{{dicts["question"]}}</li>
-        {%endfor%}
+            <ul>
 
+            {% for question in note["question"] %}
+                <li>{{question}}</li>
+            {%endfor%}
+        
             </ul>
             <h3>----------------------------------------------------------------------------------------------------</h3>
-            
         </div>
-    {% else %}
-    
+        {%endfor%}  
     {% endif %}
-    <br>
-        {% if three_month_prior_notes %}
+
+    {% if three_month_prior_notes %}
         <div>
-            <h2>Notes from 3 months ago</h2>
-        {% for dicts in three_month_prior_notes %}
-            <h3> Subject: {{dicts["subject"]}}</h3>
-            <h3>Topic: {{dicts["topic"]}}</h3>
+            <h2>Notes from three months ago</h2>
+        {% for note in three_month_prior_notes %}
+            <h3> Subject: {{note["subject"]}}</h3>
+            <h3>Topic: {{note["topic"]}}</h3>
             <br>
             <h3>Notes:</h3>
-            <p>{{dicts["notes"]}}</p>   
+            <p>{{note["notes"]}}</p>
             <br>
-        {%endfor%}
+        
             <h3>Questions:</h3>
+            <ul>
 
-             {% for dicts in three_month_prior_questions%}
-            <li>{{dicts["question"]}}</li>
-
-        {%endfor%}
+            {% for question in note["question"] %}
+                <li>{{question}}</li>
+            {%endfor%}
+        
+            </ul>
             <h3>----------------------------------------------------------------------------------------------------</h3>
         </div>
-    {% else %}
-    
+        {%endfor%}  
     {% endif %}
+
 </body>
 </html>

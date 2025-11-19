@@ -2,7 +2,7 @@
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
 load_dotenv()
-from utils.db_client import get_notes, get_questions
+from utils.db_client import get_notes
 
 import os
 from supabase import create_client
@@ -68,7 +68,7 @@ def get_topic():
 def notes():
   subject = request.args.get("subject")
   notes = request.args.get("notes")
-  questions = [request.args.get("question_1"), request.args.get("question_2"), request.args.get("question_3")]
+  questions = request.args.getlist("question")
   topic = request.args.get("topic")
   date = request.args.get("date")
 
@@ -80,12 +80,14 @@ def notes():
   )
   
   main_id =  send_notes.data[0]["id"]
-  rows = [{"main_id":main_id, "question":question, "created_at":date } for question in questions]
-  (
-    supabase.table("questions")
-    .insert(rows) 
-    .execute()
-  )
+
+  rows = ([{"main_id":main_id, "question":question, "created_at":date } for question in questions])
+  print(rows)
+
+  (supabase.table("questions")
+  .insert(rows) 
+  .execute())
+
   return redirect(url_for("submitted_notes"))
 
 @app.route("/submitted_notes")
@@ -108,27 +110,7 @@ def todays_notes():
   month_prior_notes = get_notes(month_prior)
   three_month_prior_notes = get_notes (three_month_prior)
   
-  main_id = []
-  for dicts in day_prior_notes:
-    main_id.append(dicts["id"])
-  day_prior_questions = get_questions(main_id)
-
-  for dicts in week_prior_notes:
-    main_id.append(dicts["id"])
-  week_prior_questions = get_questions(main_id)
-
-  for dicts in month_prior_notes:
-    main_id.append(dicts["id"])
-  month_prior_questions = get_questions(main_id)
-
-  for dicts in three_month_prior_notes:
-    main_id.append(dicts["id"])
-  three_month_prior_questions = get_questions(main_id)
-
-
-  print(day_prior_questions)
-
-  return render_template("todays_notes.html", day_prior_notes = day_prior_notes, week_prior_notes = week_prior_notes, month_prior_data = month_prior_notes, three_month_prior_notes = three_month_prior_notes, day_prior_questions = day_prior_questions, week_prior_questions = week_prior_questions, month_prior_questions = month_prior_questions, three_month_prior_questions = three_month_prior_questions,  date=date)
+  return render_template("todays_notes.html", day_prior_notes = day_prior_notes, week_prior_notes = week_prior_notes, month_prior_notes = month_prior_notes, three_month_prior_notes = three_month_prior_notes, date=date)
 
 
 if __name__ == "__main__":
