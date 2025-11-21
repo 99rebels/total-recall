@@ -7,6 +7,8 @@
 
 - [week 2 progress update](docs/week_two.md) 
 
+- [week 3 progress update](docs/week_three.md)
+
 - [Friction log](/docs/friction-log.md) where I treat it as like a diary updating every day/week with  more comprehensive explanations into what I am learning and the progress I'm making (something I cant really do that well on the weekly form).
 
 

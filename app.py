@@ -1,17 +1,32 @@
 
 from dotenv import load_dotenv
-from datetime import datetime, timedelta
 load_dotenv()
-from utils.db_client import get_notes
 
+from datetime import datetime, timedelta
+from utils.db_client import get_notes
+from flask import Flask, request, render_template, url_for, redirect
 import os
-from supabase import create_client
+import json
+
+
+from supabase import create_client #Supabase Client
 
 url = os.environ.get("SUPABASE_URL")
 key = os.environ.get("SUPABASE_KEY")
 supabase = create_client(url, key)
 
-from flask import Flask, request, render_template, url_for, redirect
+
+
+
+import google.generativeai as genai #Google Gemini Client
+
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+client = genai.configure(api_key=GEMINI_API_KEY)
+model = genai.GenerativeModel("gemini-2.5-flash")
+
+
+
+
 
 app = Flask(__name__)
 
@@ -96,8 +111,49 @@ def submitted_notes():
 
 
 # A function to work out the dates I'll be using to retrieve relavent notes from the database for that day and sends it to todays_notes.html to be iterated through and displayed with jinja.
-@app.route("/todays_notes")
-def todays_notes():
+@app.route("/todays_notes", methods = ["GET", "POST"])
+
+def choose_function():
+
+  question_request = request.args.get("generate_questions")
+  user_questions = request.args.get("user_questions")
+  note_id = request.args.get("note_id")
+
+  if question_request:  
+    return generate_questions(note_id, user_questions)
+  else:
+    return todays_notes()
+
+    
+
+
+def generate_questions(note_id, user_questions):
+ 
+  notes = (
+    supabase.table("notes")
+    .select("*")
+    .eq("id", note_id)
+    .execute()
+  )
+  for note in notes.data:
+    note_values = note
+  
+  prompt = f"""Context: this is a tool created to test a users knowlege on the provided content. They have created questions for themselves, but your job is to create some additonal ones to test them on the content further.
+  JOB: from the notes, subject and topic, create these FIVE additonal questions (make sure theyre not duplicates of the ones given by the user). Only create questions where answers are pretty confindentally present in the notes provided to you. You are allowed to experiment somewhat in creating the questions, but answers must be at least hinted to in the notes. The relavent info will be provided to you now: user notes: {note_values["notes"]}, subject: {note_values["subject"]}, topic: {note_values["topic"]}, user questions: {user_questions}. return ONLY valid Json in this format: ["question 1", "question 2", "question 3", ...]. Do NOT include code fences, explanations, backticks, or markdown."""
+
+  
+
+  response = model.generate_content(prompt) 
+
+  parsed_questions = json.loads(response.text)
+
+  print(parsed_questions)
+
+  return get_notes(note_values["id"], parsed_questions)
+
+  
+def todays_notes(note_id = None, parsed_questions = None):
+  
   date = datetime.now()
   day_prior = str(date - timedelta(days=1))
   week_prior = str(date - timedelta(days=7))
@@ -105,12 +161,15 @@ def todays_notes():
   three_month_prior = str(date - timedelta(days=90))
 
 
-  day_prior_notes = get_notes(day_prior)
-  week_prior_notes = get_notes(week_prior)
-  month_prior_notes = get_notes(month_prior)
-  three_month_prior_notes = get_notes (three_month_prior)
-  
+  day_prior_notes = get_notes(day_prior, note_id, parsed_questions)
+  week_prior_notes = get_notes(week_prior, note_id, parsed_questions)
+  month_prior_notes = get_notes(month_prior, note_id, parsed_questions)
+  three_month_prior_notes = get_notes (three_month_prior, note_id, parsed_questions)
+    
+  print(day_prior_notes)
+
   return render_template("todays_notes.html", day_prior_notes = day_prior_notes, week_prior_notes = week_prior_notes, month_prior_notes = month_prior_notes, three_month_prior_notes = three_month_prior_notes, date=date)
+
 
 
 if __name__ == "__main__":

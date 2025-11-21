@@ -6,6 +6,7 @@
     <title>Today's Notes</title>
 </head>
 <body>
+    <h1>Hello World</h1>
     {% if day_prior_notes %}
         <div>
             <h2>Notes from yesterday</h2>
@@ -19,12 +20,23 @@
         
             <h3>Questions:</h3>
             <ul>
-
             {% for question in note["question"] %}
                 <li>{{question}}</li>
             {%endfor%}
         
             </ul>
+
+            <!-- {%set question_list = []%}
+
+            {%for question in note["question"]%}
+                {{ question_list.append(question) }}
+            {%endfor%} -->
+
+            <form action = "/todays_notes" >
+                <input type="hidden" name="note_id" value="{{note['id']}}">
+                <input type = "hidden" name = "user_questions" value = "{{note['question']}}">
+                <input type = "submit" name = "generate_questions">
+            </form>
             <h3>----------------------------------------------------------------------------------------------------</h3>
         </div>
         {%endfor%}  
@@ -73,6 +85,11 @@
             {%endfor%}
         
             </ul>
+            <form action = "/todays_notes" >
+                <input type="hidden" name="note_id" value="{{id}}">
+                <input type = "hidden" name = "user_questions" value = "{{questions}}">
+                <input type = "submit" name = "generate_questions">
+            </form>
             <h3>----------------------------------------------------------------------------------------------------</h3>
         </div>
         {%endfor%}  

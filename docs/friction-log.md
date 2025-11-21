@@ -170,3 +170,24 @@
  - I have realised that I have been including my .env file in my github pushes (fine for now but could have been really bad if I had my private DB key or AI API key). So I need to sort that out. 
 
  -  I also bought totalrecall.info in preperating for production on Render. 
+
+
+#### 17:30 ####
+ - I have added the added the gemini model (gemini-1.5-flash as it appears to be free or at least of negligable price). I'm trying to figure out how I'm going to do this. There is two ways I can think of doing it. The first is by using python, when the button is pressed it does a HTTP call to the same page returning the value of the LLM's response but that will mean it will wait for the response meaning long page loads.
+
+ - The second way is with JS. On button press, it would send a request to the Flask function and wait for the result. This is a way better UX because the entire page wouldn't be loading. However, I dont know how to do this. Also, Do I send it as JSON? the only things I need is the notes, subject, topic and questions as arguments to the flask function. I need to think about this.
+
+ - I think I do it with something called an AJAX request? not 100 percent sure what that means but we'll give it a go....
+
+ - Hold on this is a bit more complicated. The issue is that my todays_notes.html page is being dynamically built up with JINJA. Its easy to acsess a single div or form element with JS but how to you access the loop and send the correct notes?
+
+
+#### 18:00 ####
+ - I'm not experienced enough with Java Script to know what I'm doing. I cant think of how to do it at all. For now I'm going to try and get it to work in python first (I have an idea for this). This will at least get the function on flask working with the LLM and resposnses correctly. Then I can change it to JS. I need to get more familiar how JS works with Jinja, in terms of looping accessing variables etc. 
+
+
+### 21/11/25 ###
+#### 11:50 ####
+ - Holy shit, after a days work I finally got a response from Gemini. This is rediculously cool. It's just printed to the console but that is acctually so satisfying. It wasn't all that difficult (I had some trouble with routes etc) but it is so cool to see it working. It now generates 5 questions on the notes provided when the button is pressed.
+
+ - Now I need to parse the string to only get the questions

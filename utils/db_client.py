@@ -5,6 +5,8 @@ load_dotenv()
 import os
 from supabase import create_client
 
+import json
+
 url = os.environ.get("SUPABASE_URL")
 key = os.environ.get("SUPABASE_KEY")
 supabase = create_client(url, key)
@@ -13,7 +15,7 @@ supabase = create_client(url, key)
 # this function gets the notes from a date givin as an argument. It is called from two locations. app.py and script.py the duplication of writing the function twice. 
 
 
-def get_notes(date):
+def get_notes(date, note_id = None, parsed_questions = None):
     notes  = (
         supabase.table("notes")
         .select("*",)
@@ -37,10 +39,15 @@ def get_notes(date):
 
         note.update({"question": question_list})
 
+
+
+
+    if parsed_questions is not None:
+        for note in notes:
+            if note[note_id] in note:
+                note[note_id].update({"generated_questions": parsed_questions})
+            else:
+                continue
+
+
     return notes.data
-
-
-
-
-
-    
