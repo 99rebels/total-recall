@@ -113,46 +113,51 @@ def submitted_notes():
 # A function to work out the dates I'll be using to retrieve relavent notes from the database for that day and sends it to todays_notes.html to be iterated through and displayed with jinja.
 @app.route("/todays_notes", methods = ["GET", "POST"])
 
-def choose_function():
+def todays_notes():
 
   question_request = request.args.get("generate_questions")
-  user_questions = request.args.get("user_questions")
-  note_id = request.args.get("note_id")
+  todays_notes = ""
 
-  if question_request:  
-    return generate_questions(note_id, user_questions)
-  else:
-    return todays_notes()
-
+  if question_request:
     
+    user_questions = request.args.get("user_questions")
+    note_id = request.args.get("note_id")  
+    llm_questions = generate_questions(note_id, user_questions)
+
+    todays_notes = all_notes(note_id, llm_questions)
+  else:
+    todays_notes =  all_notes()
+
+  print(todays_notes)
+  return render_template("todays_notes.html", todays_notes=todays_notes)
+
 
 
 def generate_questions(note_id, user_questions):
  
-  notes = (
+  note = (
     supabase.table("notes")
     .select("*")
     .eq("id", note_id)
     .execute()
   )
-  for note in notes.data:
-    note_values = note
+
+  note = note.data[0]
   
   prompt = f"""Context: this is a tool created to test a users knowlege on the provided content. They have created questions for themselves, but your job is to create some additonal ones to test them on the content further.
-  JOB: from the notes, subject and topic, create these FIVE additonal questions (make sure theyre not duplicates of the ones given by the user). Only create questions where answers are pretty confindentally present in the notes provided to you. You are allowed to experiment somewhat in creating the questions, but answers must be at least hinted to in the notes. The relavent info will be provided to you now: user notes: {note_values["notes"]}, subject: {note_values["subject"]}, topic: {note_values["topic"]}, user questions: {user_questions}. return ONLY valid Json in this format: ["question 1", "question 2", "question 3", ...]. Do NOT include code fences, explanations, backticks, or markdown."""
+  JOB: from the notes, subject and topic, create ONLY FIVE additonal questions (make sure theyre not duplicates of the ones given by the user). Only create questions where answers are pretty confindentally present in the notes provided to you. You are allowed to experiment somewhat in creating the questions, but answers must be at least hinted to in the notes. The relavent info will be provided to you now: user notes: {note["notes"]}, subject: {note["subject"]}, topic: {note["topic"]}, user questions: {user_questions}. return ONLY valid Json in this format: ["question 1", "question 2", "question 3", ...]. Do NOT include code fences, explanations, backticks, or markdown."""
 
   
 
   response = model.generate_content(prompt) 
 
-  parsed_questions = json.loads(response.text)
 
-  print(parsed_questions)
+  llm_questions = json.loads(response.text)
 
-  return get_notes(note_values["id"], parsed_questions)
+  return llm_questions
 
   
-def todays_notes(note_id = None, parsed_questions = None):
+def all_notes(note_id = None, llm_questions = None):
   
   date = datetime.now()
   day_prior = str(date - timedelta(days=1))
@@ -161,14 +166,17 @@ def todays_notes(note_id = None, parsed_questions = None):
   three_month_prior = str(date - timedelta(days=90))
 
 
-  day_prior_notes = get_notes(day_prior, note_id, parsed_questions)
-  week_prior_notes = get_notes(week_prior, note_id, parsed_questions)
-  month_prior_notes = get_notes(month_prior, note_id, parsed_questions)
-  three_month_prior_notes = get_notes (three_month_prior, note_id, parsed_questions)
-    
-  print(day_prior_notes)
+  day_prior_notes = get_notes(day_prior, note_id, llm_questions)
+  week_prior_notes = get_notes(week_prior, note_id, llm_questions)
+  month_prior_notes = get_notes(month_prior, note_id, llm_questions)
+  three_month_prior_notes = get_notes (three_month_prior, note_id, llm_questions)
 
-  return render_template("todays_notes.html", day_prior_notes = day_prior_notes, week_prior_notes = week_prior_notes, month_prior_notes = month_prior_notes, three_month_prior_notes = three_month_prior_notes, date=date)
+  
+  note_list ={}
+
+  note_list.update({"Yesterday": day_prior_notes, "Last Week": week_prior_notes, "Last Month": month_prior_notes, "Three Months Ago": three_month_prior_notes})
+
+  return note_list
 
 
 

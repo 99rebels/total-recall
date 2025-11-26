@@ -15,7 +15,7 @@ supabase = create_client(url, key)
 # this function gets the notes from a date givin as an argument. It is called from two locations. app.py and script.py the duplication of writing the function twice. 
 
 
-def get_notes(date, note_id = None, parsed_questions = None):
+def get_notes(date, note_id = None, llm_questions = None):
     notes  = (
         supabase.table("notes")
         .select("*",)
@@ -24,6 +24,7 @@ def get_notes(date, note_id = None, parsed_questions = None):
     )
 
     for note in notes.data:
+        print(note.values())
 
         questions = (
         supabase.table("questions")
@@ -40,14 +41,13 @@ def get_notes(date, note_id = None, parsed_questions = None):
         note.update({"question": question_list})
 
 
-
-
-    if parsed_questions is not None:
-        for note in notes:
-            if note[note_id] in note:
-                note[note_id].update({"generated_questions": parsed_questions})
+        
+        if llm_questions is not None:
+            if int(note_id) in note.values():
+                note.update({"generated_questions": llm_questions})
             else:
                 continue
-
+        else:
+            continue
 
     return notes.data
