@@ -17,7 +17,21 @@
 
 ## -----------------------------------------------------------------------------------------------------
 
+### Instructions on how set up Total Recall Locally ###
+
+- install a virtual environment on your machine with these [libraries](requirements.txt).
+
+- Run the database migration provided [here](db_schema.sql) to create the necessary tables into your chosen database.
+
+- To run the application locally input the following commands into your terminal. 
+ - Mac OS: 
+    - source venv/bin/activate
+    - python app.py
+
+- Windows: 
+    - venv\Scripts\Activate
+    - python app.py
 
 
-
+- Finally go to http://127.0.0.1:5000 (could default to another port depending on your machine) and try out Total Recall for yourself!
  
