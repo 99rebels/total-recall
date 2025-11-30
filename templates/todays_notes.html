@@ -4,128 +4,106 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Today's Notes</title>
-    <script></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-    {% if todays_notes %}
-        {% for note_dict in todays_notes %}
-            {% if note_dict %}
-                <div>
-                    <div>
-                        <h2>notes from {{note_dict}}</h2>
-                    </div>
-                    {% for notes in todays_notes[note_dict] %}
-                        <div>
+    <div id = "main_container" class="bg-stone-50 min-h-screen w-full p-4 flex items-center flex flex-col">
+        <div id ="nav_bar" class = "w-full flex flex-row justify-center items-center mt-3 mb-20">
+            <div id = "view_notes" class = "rounded-md bg-red-600 px-5 py-2.5 text-m font-medium text-white shadow-sm hover:bg-red-700 transition-transform duration-150 hover:-translate-y-0.5 mr-20">
+                <a href = "/todays_notes">
+                    <button>
+                        View Notes For Today
+                    </button>
+                </a>
+            </div>
+
+            <div id = "add_notes" class = "rounded-md bg-red-600 px-5 py-2.5 text-m font-medium text-white shadow-sm hover:bg-red-700 transition-transform duration-150 hover:-translate-y-0.5 ml-20">
+                <a href = "/subject_input">
+                 <button>
+                    Add Notes
+                </button>
+                </a>
+            </div>
+        </div>
+    {% for note_dict in todays_notes %}
+        {% if todays_notes[note_dict] %}
+            <div id = "note_date" class = "text-4xl mt-8 mb-8 w-1/4 flex items-center justify-center py-1">
+                <h2>notes from {{note_dict}}</h2>
+            </div>
+
+            {% for notes in todays_notes[note_dict] %}
+                <div id = "content" class = "bg-neutral-50 items-center justify-center flex-col border-2 border-slate-300 rounded-lg w-4/5 p-10 mb-20 min-h-1/2">
+
+                    <div id = "subject_topic_row" class = "flex items-center justify-between flex-row w-full">
+
+                        <div id="subject" class = "bg-white px-3 ml-20 border border-slate-300 rounded-lg w-1/4 flex items-center justify-center py-1">
                             <h3> Subject: {{notes["subject"]}}</h3>
                         </div>
-                        <div>
+
+                        <div id = "topic" class = "px-3 mr-20 bg-white border border-slate-300 rounded-lg w-1/4 flex items-center justify-center py-1">
                             <h3> Topic: {{notes["topic"]}}</h3>
-                        </div>
-                        <div>
+                            </div>
+
+                    </div>
+
+                    <div id = "note_question_titles" class = "flex items-center justify-between flex-row w-full">
+
+                        <div id = "note_title" class= "mt-5 ml-1 bg-white border border-slate-300 rounded-lg w-2/5 flex items-center justify-center py-1">
                             <h3>Notes:</h3>
                         </div>
-                        <div>
-                            <p>{{notes["notes"]}}</p>
-                        </div>
-                        <div>
+
+                        <div id = "question_title" class= "mt-5 mr-1 bg-white border border-slate-300 rounded-lg w-2/5 flex items-center justify-center py-1">
                             <h3>Questions:</h3>
                         </div>
-                        <div>
-                            <ul>
-                            {% for question in notes["question"] %}
+
+                    </div>
+
+                    <div id ="note_question_content" class = "flex items-start justify-between flex-row w-full">
+
+                        <div id = "notes" class = "min-h-[20vh] h-auto mr-5 mt-5 bg-white border border-slate-300 rounded-2xl w-1/2 p-5">
+                            <p>{{notes["notes"]}}</p>
+                        </div>
+
+                        <div id = "questions" class = "min-h-[20vh] h-auto ml-5 mt-5 bg-white border border-slate-300 rounded-2xl w-1/2 p-5">
+                            <ul class="list-disc list-inside">
+                                {% for question in notes["question"] %}
                                     <li>{{question}}</li>
-                            {% endfor %}
+                                {% endfor %}
                             </ul>
                         </div>
+                    </div>
 
-                        {% if notes["generated_questions"] %}
+                    <div id ="total_recall_button" class = "flex items-center justify-center flex-row w-full">
 
-                            <h3>Total Recall Questions:</h3>
-                            
-                        <div>
-                            <ul>
+                        <form action = "/todays_notes" class = "justify-center rounded-full bg-red-600 mt-5 px-5 py-2.5 text-xl text-white shadow-sm hover:bg-red-700 transition-transform duration-150 hover:-translate-y-0.5">
+                            <input type="hidden" name="note_id" value="{{notes['id']}}">
+                            <input type = "hidden" name = "user_questions" value = "{{notes['question']}}">
+                            <input type = "submit" name = "generate_questions" value="Generate AI Questions" class = "hover:cursor-pointer">
+                        </form>
+                    
+                    </div>
+
+                {% if notes["generated_questions"] %}
+                    <div id ="generated_questions" class = "bg-red-50 w-full mt-5 border border-slate-300 rounded-2xl w-4/5 p-5 justify-center">
+
+                        <div class = "mb-8 sm:text-xl">
+                            Total Recall's Questions:
+                        </div>
+
+                        <ul>
                             {% for llm_question in notes["generated_questions"] %}
-                                    <li>{{llm_question}}</li>
+                                <li class = "mb-4 list-disc list-inside">{{llm_question}}</li>
                             {% endfor %}
-                            </ul>
-                        </div>
-                            
-                        {%endif%}
-                        <div>
-                            <form action = "/todays_notes" >
-                                <input type="hidden" name="note_id" value="{{notes['id']}}">
-                                <input type = "hidden" name = "user_questions" value = "{{notes['question']}}">
-                                <input type = "submit" name = "generate_questions">
-                            </form>
-                        </div>
-                        <h3>--------------------------------------------------------------------------------------------------------</h3>
-                    {%endfor%}
+                        </ul>
+
+                    </div>
+                {%endif%}
                 </div>
-            {%endif%}
-        
-        {% endfor %}
 
-    {% else %}
-        <h1>No Notes today!</h1>
-    {% endif %}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <!-- <h1>Hello World</h1>
-    {% if day_prior_notes %}
-        <div>
-            <h2>Notes from yesterday</h2>
-        {% for note in day_prior_notes %}
-            <h3> Subject: {{note["subject"]}}</h3>
-            <h3>Topic: {{note["topic"]}}</h3>
-            <br>
-            <h3>Notes:</h3>
-            <p>{{note["notes"]}}</p>
-            <br>
-        
-            <h3>Questions:</h3>
-            <ul>
-            {% for question in note["question"] %}
-                <li>{{question}}</li>
-            {%endfor%}
-        
-            </ul>
-
-            {%set question_list = []%}
-
-            {%for question in note["question"]%}
-                {{ question_list.append(question) }}
             {%endfor%}
 
-            <form action = "/todays_notes" >
-                <input type="hidden" name="note_id" value="{{note['id']}}">
-                <input type = "hidden" name = "user_questions" value = "{{note['question']}}">
-                <input type = "submit" name = "generate_questions">
-            </form>
-            <h3>----------------------------------------------------------------------------------------------------</h3>
-        </div>
-        {%endfor%}  
-    {% endif %} -->
+        {%endif%}
+    {% endfor %}
+    </div>
 </body>
 </html>

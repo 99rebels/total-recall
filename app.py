@@ -87,7 +87,7 @@ def notes():
   topic = request.args.get("topic")
   date = request.args.get("date")
 
-  print(questions)
+
   send_notes = (
     supabase.table("notes")
     .insert({"created_at":date, "subject":subject, "topic": topic, "notes": notes,}) 
@@ -101,7 +101,8 @@ def notes():
 
   (supabase.table("questions")
   .insert(rows) 
-  .execute())
+  .execute()
+  )
 
   return redirect(url_for("submitted_notes"))
 

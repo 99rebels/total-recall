@@ -3,41 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>Notes</title>
 </head>
 <body>
-    <div>
-        <form action = "/form_submit">
+    <div id = "main_container" class="bg-stone-50 min-h-screen w-full p-4 items-center justify-center flex" >
 
-        <select name="topic">
-            {% for topics in topic_collection %}
-                <option>{{topics}}</option>
-            {%endfor%}
-        </select>
-        <input type="hidden" name="subject" value="{{subject}}">
-        <input type="text" name="notes" placeholder="Add your notes..." required>
+        <div class="w-full flex flex-col justify-center items-center">
 
-        <div id = "question_field">
-            <input type="text"  name="question" placeholder="Add question 1..." required>
+            <div id = "nav row" class = "w-full flex flex-row justify-center items-center mb-15">
+                <div id = "view_notes" class = "rounded-md bg-red-600 px-5 py-2.5 text-m font-medium text-white shadow-sm hover:bg-red-700 transition-transform duration-150 hover:-translate-y-0.5 mr-20">
+                    <a href = "/todays_notes">
+                        <button>
+                            View Notes For Today
+                        </button>
+                    </a>
+                </div>
+
+                <div id = "add_notes" class = "rounded-md bg-red-600 px-5 py-2.5 text-m font-medium text-white shadow-sm hover:bg-red-700 transition-transform duration-150 hover:-translate-y-0.5 ml-20">
+                    <button>
+                        Add Notes
+                    </button>
+                </div>
+            </div>
+
+            <div id = "content" class="w-full flex items-center justify-between flex-col gap-8 p-8 mt-20">
+
+                <form action = "/form_submit" class = w-2/3>
+
+                    <div id = "subject_date_row" class = "flex items-center justify-start flex-row">
+
+                        <div id = "subject_select" class = "font-medium text-slate-700 flex justify-center bg-white border border-slate-200 rounded-lg w-1/4 px-2 py-1.5 mr-10">
+                            Subject: {{subject}}
+                            <input type="hidden" name="subject" value="{{subject}}">
+                        </div>
+
+                        <div id = "date" class = "font-medium text-slate-700 flex justify-center bg-white border border-slate-200 rounded-lg px-3 py-1">
+                            <input type="date" name="date" placeholder="date" required>
+                        </div>  
+
+                    </div>
+
+                    <div id = "topic_view_notes_row" class = "flex items-center justify-between flex-row">
+                        <div id = "topic_choice" class = "mt-5 text-slate-700 flex justify-center bg-white border border-slate-200 rounded-lg w-3/5 sm:text-xl px-2 py-1">
+                            <select name="topic" class = "w-full">
+                                {% for topics in topic_collection %}
+                                    <option>{{topics}}</option>
+                                {%endfor%}
+                            </select>
+                        </div>
+
+                        <div id = "todays_notes_button" class = "mt-5 mr-10 bg-red-600 flex justify-center rounded-2xl border px-4 py-2 text-lg text-white hover:bg-red-500 hover:border-slate-300 transition duration-150 w-1/4">
+                            <a href = "/subject_input">
+                                <button type = "button" class = "hover:cursor-pointer">Cancel</button>
+                            </a>
+                        </div>
+
+                    </div>
+
+                    <div id = "notes_question_textareas" class = "mt-3 w-full flex items-center justify-center flex-col">
+
+                        <div id = "note_text_area" class = "w-full">
+                            <textarea name = "notes" placeholder="add your notes here..." class = "text-md text-slate-700 h-32 p-5 border-2 border-slate-300 focus:outline-none focus:border-red-400 rounded-lg resize-y mt-5 w-full"></textarea>
+                        </div>
+
+                        <div id = "question_text_area" class = "w-full">
+                            <textarea name = "question" placeholder="add question 1..." class = "focus:outline-none focus:border-red-400 h-16 p-3 border-2 border-slate-300 rounded-lg resize-y mt-5 w-full"></textarea>
+                        </div>
+                        
+                    </div>
+
+                    <div id = "button_row" class = "flex items-center justify-between flex-row mt-4">
+                        <div id = "add_question" class = "bg-red-600 flex justify-center rounded-full border px-4 py-2 text-m font-medium text-white hover:bg-red-500 hover:border-slate-300 transition duration-150 w-1/4">
+                            <button type = "button" onclick = "add_question_field()">Add question</button>
+                        </div>
+
+                        <div id = "submit_button" class = "rounded-full bg-red-600 px-5 py-2.5 text-m font-medium text-white shadow-sm hover:bg-red-700 transition-transform duration-150 hover:-translate-y-0.5">
+                            <button class = "hover:cursor-pointer" type = "submit">Submit Notes</button>
+                        </div>
+                    </div>
+                    
+                    
+
+
+                </form>
+                
+            </div>
         </div>
+    </div>
 
-        <input type="date" name="date" placeholder="date" required>
-        <input type="submit" name="submit">
-        </form>
-        <button onclick = "add_question_field()"> Add question </button>
     </div>
 
     <script>
         let count = 2;
         function add_question_field() {
-            const container = document.getElementById("question_field");
 
-            const input = document.createElement("input");
+            const container = document.getElementById('notes_question_textareas');
+
+            const wrapper = document.createElement('div');
+            wrapper.classList.add("w-full");
+
+            const input = document.createElement("textarea");
             input.type = "text";
             input.name = "question";
             input.placeholder = "add question " + count + "...";
+            input.classList.add("h-16", "p-3", "border-2", "border-gray-300", "rounded-lg", "resize-y", "mt-2", "w-full", "focus:outline-none" , "focus:border-red-400")
             count+=1;
-            container.appendChild(input);
+            wrapper.appendChild(input);
+
+            container.appendChild(wrapper);
+
         }
     </script>
 

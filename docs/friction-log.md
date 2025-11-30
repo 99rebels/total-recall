@@ -191,3 +191,10 @@
  - Holy shit, after a days work I finally got a response from Gemini. This is rediculously cool. It's just printed to the console but that is acctually so satisfying. It wasn't all that difficult (I had some trouble with routes etc) but it is so cool to see it working. It now generates 5 questions on the notes provided when the button is pressed.
 
  - Now I need to parse the string to only get the questions
+
+
+### 30/11/25
+
+- Well, it's been a while and despite the lack of updates on my friction log I have been very busy. Total Recall is officially finished! I spent the last few days finishing the LLM intergration and styling.
+
+- Styling was much easier than I first thought with tailwind. I started off with the bear bones of styling (rows and Columns) and then applied some basic styling to primary buttons, text areas etc.

@@ -4,9 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Submition sucsessfull</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-    <h1>Notes succsessfuly submitted!</h1>
-    <a style=color:black href = "/subject_input"><button>Submit new notes</buton></a>
-    <a style=color:black href = "/todays_notes"><button>Veiw todays notes</buton></a>
+    <div id = "main_container" class="bg-stone-50 min-h-screen w-full p-4 flex items-center justify-center flex flex-col">
+
+        <div id = "content" class = "flex items-center flex-col w-4/5 p-10 mb-20 min-h-1/2">
+
+            <div id = "title" class = "text-5xl">
+                Notes succsessfuly submitted!
+            </div>
+
+            <div id = "buttons" class = "flex items-center justify-center flex-row w-full mt-20">
+
+                <div id = "add_new_notes" class = "flex justify-center w-1/5 rounded-2xl bg-red-600 px-5 py-2.5 text-xl text-white shadow-sm hover:bg-red-700 transition-transform duration-150 hover:-translate-y-0.5 mr-10">
+                    <a href = "/subject_input">
+                        <button>Submit new notes</buton>
+                    </a>
+                </div>
+                        
+                <div id = "view_notes" class = "flex justify-center w-1/5 rounded-2xl bg-red-600 px-5 py-2.5 text-xl text-white shadow-sm hover:bg-red-700 transition-transform duration-150 hover:-translate-y-0.5 ml-10">
+                    <a href = "/todays_notes">
+                        <button>Veiw todays notes</buton>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    
 </html>
