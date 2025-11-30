@@ -18,6 +18,12 @@
 
 Based on the science of "active recall", my project hopes to optimize ones abiity to learn by leveraging the [scientific research](https://pmc.ncbi.nlm.nih.gov/articles/PMC5126970/?). It works by a user entering in their notes and testing questions for that day, and after one day, week, month and three months, those notes and questions will be shown to the user to the test them and put learned information into their long term memory. Being in 6th year, this would be extremely helpful to me and being aware of the scientific research I attempted to find a tool to help me leverage it. After futile effort I decided to build it as my TECS project. 
 
+ - Future enancements (if I had more time with TECS):
+    - Ability to remove dynamically added questions (can add but cannot remove)
+    - have the ability to edit notes
+    - set up a daily cron to send an email to the user with their notes to look over for that day.
+    - Set up user management to allow other to create an account and have their own notes
+
 ## -----------------------------------------------------------------------------------------------------
 
 ### Instructions on how set up Total Recall Locally ###
